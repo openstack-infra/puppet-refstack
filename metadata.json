@@ -1,0 +1,12 @@
+{
+  "name": "openstackci-refstack",
+  "version": "0.0.1",
+  "author": "Openstack CI",
+  "summary": "Puppet module for the OpenStack refstack",
+  "license": "Apache 2.0",
+  "source": "git://git.openstack.org/openstack-infra/puppet-refstack.git",
+  "project_page": "http://ci.openstack.org/",
+  "issues_url": "https://refstack.openstack.org/#!/project/700",
+  "dependencies": [
+  ]
+}
