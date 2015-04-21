@@ -95,4 +95,13 @@ class refstack::api () {
     ],
     systempkgs   => false,
   }
+
+  # Run pip from the venv, install refstack.
+  python::pip { 'refstack':
+    pkgname    => 'refstack',
+    ensure     => present,
+    virtualenv => $install_api_root,
+    url        => "file://${src_api_root}",
+    owner      => $user,
+  }
 }
