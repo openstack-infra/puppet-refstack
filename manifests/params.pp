@@ -20,7 +20,11 @@ class refstack::params (
   $python_version = '2.7',
 
   # Source and install directories.
-  $src_api_root   = '/opt/refstack-api'
+  $src_api_root   = '/opt/refstack-api',
+
+  # The user under which refstack will run.
+  $user           = 'refstack',
+  $group          = 'refstack',
 ) {
 
   # Resolve a few parameters based on the install environment.

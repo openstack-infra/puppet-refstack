@@ -17,7 +17,8 @@
 # This class installs the refstack API so that it may be run via wsgi.
 #
 class refstack::api () {
-  require refstack::params
+  require ::refstack::params
+  require ::refstack::user
 
   # Import parameters into local scope.
   $python_version         = $::refstack::params::python_version
