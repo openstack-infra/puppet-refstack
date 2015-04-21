@@ -29,7 +29,7 @@ class refstack::mysql () {
   # Install MySQL
   include mysql::server
 
-  # Add the storyboard database.
+  # Add the refstack database.
   mysql::db { $mysql_database:
     user     => $mysql_user,
     password => $mysql_user_password,

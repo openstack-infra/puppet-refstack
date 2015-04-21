@@ -8,7 +8,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Define the box.
   config.vm.box = "ubuntu/trusty64"
-  config.vm.hostname = "puppet-storyboard-trusty64"
+  config.vm.hostname = "puppet-refstack-trusty64"
 
   config.vm.provider :virtualbox do |vb|
     vb.customize ['modifyvm', :id,'--memory', '2048']
