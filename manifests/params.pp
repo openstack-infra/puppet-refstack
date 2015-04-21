@@ -17,7 +17,10 @@
 # Centralized configuration management for the refstack module.
 #
 class refstack::params (
-  $python_version = '2.7'
+  $python_version = '2.7',
+
+  # Source and install directories.
+  $src_api_root   = '/opt/refstack-api'
 ) {
 
   # Resolve a few parameters based on the install environment.

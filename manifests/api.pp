@@ -20,7 +20,8 @@ class refstack::api () {
   require refstack::params
 
   # Import parameters into local scope.
-  $python_version         = $refstack::params::python_version
+  $python_version         = $::refstack::params::python_version
+  $src_api_root           = $::refstack::params::src_api_root
 
   class { 'python':
     version    => $python_version,
@@ -35,6 +36,15 @@ class refstack::api () {
     package { 'git':
       ensure => present
     }
+  }
+
+  # Download the latest Refstack Source
+  vcsrepo { $src_api_root:
+    ensure   => latest,
+    provider => git,
+    revision => 'master',
+    source   => 'https://git.openstack.org/stackforge/refstack/',
+    require  => Package['git']
   }
 
 }
