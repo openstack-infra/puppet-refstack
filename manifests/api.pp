@@ -42,6 +42,26 @@ class refstack::api () {
     }
   }
 
+  # Create the refstack configuration directory.
+  file { '/etc/refstack':
+    ensure => directory,
+    owner  => $user,
+    group  => $group,
+    mode   => '0700',
+  }
+
+  # Configure the refstack API
+  file { '/etc/refstack/refstack.conf':
+    ensure  => present,
+    owner   => $user,
+    group   => $group,
+    mode    => '0400',
+    content => template('refstack/refstack.conf.erb'),
+    require => [
+      File['/etc/refstack']
+    ]
+  }
+
   # Download the latest Refstack Source
   vcsrepo { $src_api_root:
     ensure   => latest,
