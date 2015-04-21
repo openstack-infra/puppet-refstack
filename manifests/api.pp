@@ -110,7 +110,8 @@ class refstack::api () {
     virtualenv => $install_api_root,
     url        => "file://${src_api_root}",
     owner      => $user,
-    require    => Vcsrepo[$src_api_root]
+    require    => Vcsrepo[$src_api_root],
+    subscribe  => Vcsrepo[$src_api_root],
   }
 
   # Migrate the database
