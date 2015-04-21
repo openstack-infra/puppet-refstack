@@ -13,3 +13,8 @@ fi
 if [ ! -d /etc/puppet/modules/refstack ]; then
   sudo ln -s /vagrant /etc/puppet/modules/refstack
 fi
+
+# Install required puppet modules.
+if [ ! -d /etc/puppet/modules/python ]; then
+  puppet module install stankevich-python --version 1.6.6
+fi

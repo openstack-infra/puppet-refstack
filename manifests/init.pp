@@ -23,4 +23,6 @@ class refstack () {
   # but ensures that variables are consistent across all modules.
   class { '::refstack::params':
   }
+
+  include ::refstack::api
 }

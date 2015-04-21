@@ -8,5 +8,9 @@
   "project_page": "http://ci.openstack.org/",
   "issues_url": "https://refstack.openstack.org/#!/project/700",
   "dependencies": [
+    {
+      "name": "stankevich/python",
+      "version_requirement": ">= 1.6.6"
+    }
   ]
 }

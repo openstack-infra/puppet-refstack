@@ -4,7 +4,7 @@
 # not use this file except in compliance with the License. You may obtain
 # a copy of the License at
 #
-# http://www.apache.org/licenses/LICENSE-2.0
+#      http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
@@ -12,16 +12,22 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-# == Class: refstack::params
+# == Class: refstack::api
 #
-# Centralized configuration management for the refstack module.
+# This class installs the refstack API so that it may be run via wsgi.
 #
-class refstack::params (
-  $python_version = '2.7'
-) {
+class refstack::api () {
+  require refstack::params
 
-  # Resolve a few parameters based on the install environment.
-  if $::operatingsystem != 'Ubuntu' or $::operatingsystemrelease < 13.10 {
-    fail("${::operatingsystem} ${::operatingsystemrelease} is not supported.")
+  # Import parameters into local scope.
+  $python_version         = $refstack::params::python_version
+
+  class { 'python':
+    version    => $python_version,
+    pip        => true,
+    dev        => true,
+    virtualenv => true,
   }
+  include python::install
+
 }
