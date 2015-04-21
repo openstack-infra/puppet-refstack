@@ -18,3 +18,6 @@ fi
 if [ ! -d /etc/puppet/modules/python ]; then
   puppet module install stankevich-python --version 1.6.6
 fi
+if [ ! -d /etc/puppet/modules/vcsrepo ]; then
+  puppet module install openstackci-vcsrepo --version 0.0.8
+fi
