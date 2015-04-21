@@ -42,6 +42,13 @@ class refstack::api () {
     }
   }
 
+  # Ensure OpenSSL is present
+  if !defined(Package['libssl-dev']) {
+    package { 'libssl-dev':
+      ensure => present
+    }
+  }
+
   # Create the refstack configuration directory.
   file { '/etc/refstack':
     ensure => directory,
