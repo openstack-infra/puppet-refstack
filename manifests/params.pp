@@ -31,4 +31,7 @@ class refstack::params (
   if $::operatingsystem != 'Ubuntu' or $::operatingsystemrelease < 13.10 {
     fail("${::operatingsystem} ${::operatingsystemrelease} is not supported.")
   }
+
+  # Create our install directory with a python-versioned name (because venv).
+  $install_api_root       = "/var/lib/refstack-py${python_version}"
 }

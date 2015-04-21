@@ -23,6 +23,9 @@ class refstack::api () {
   # Import parameters into local scope.
   $python_version         = $::refstack::params::python_version
   $src_api_root           = $::refstack::params::src_api_root
+  $install_api_root       = $::refstack::params::install_api_root
+  $user                   = $::refstack::params::user
+  $group                  = $::refstack::params::group
 
   class { 'python':
     version    => $python_version,
@@ -48,4 +51,21 @@ class refstack::api () {
     require  => Package['git']
   }
 
+  # Create the install directory and virtual environment
+  file { $install_api_root:
+    ensure  => directory,
+    owner   => $user,
+    group   => $group,
+  }
+  python::virtualenv { $install_api_root:
+    ensure       => present,
+    version      => $python_version,
+    owner        => $user,
+    group        => $group,
+    require      => [
+      File[$install_api_root],
+      Class['python::install'],
+    ],
+    systempkgs   => false,
+  }
 }
