@@ -49,6 +49,13 @@ class refstack::api () {
     }
   }
 
+  # Ensure PyMysqldb is present
+  if !defined(Package['python-mysqldb']) {
+    package { 'python-mysqldb':
+      ensure => present
+    }
+  }
+
   # Create the refstack configuration directory.
   file { '/etc/refstack':
     ensure => directory,
@@ -93,7 +100,7 @@ class refstack::api () {
       File[$install_api_root],
       Class['python::install'],
     ],
-    systempkgs   => false,
+    systempkgs   => true,
   }
 
   # Run pip from the venv, install refstack.
@@ -103,5 +110,22 @@ class refstack::api () {
     virtualenv => $install_api_root,
     url        => "file://${src_api_root}",
     owner      => $user,
+    require    => Vcsrepo[$src_api_root]
+  }
+
+  # Migrate the database
+  exec { 'migrate-refstack-db':
+    command     => 'refstack-manage --config-file /etc/refstack/refstack.conf upgrade --revision head',
+    path        => "${install_api_root}/bin/:/usr/local/bin:/usr/bin:/bin/",
+    refreshonly => true,
+    subscribe   => [
+      Python::Pip['refstack'],
+      File['/etc/refstack/refstack.conf'],
+    ],
+    require     => [
+      Package['python-mysqldb'],
+      Python::Pip['refstack'],
+      File['/etc/refstack/refstack.conf'],
+    ],
   }
 }
