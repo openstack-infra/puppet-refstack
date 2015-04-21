@@ -30,4 +30,11 @@ class refstack::api () {
   }
   include python::install
 
+  # Ensure Git is present
+  if !defined(Package['git']) {
+    package { 'git':
+      ensure => present
+    }
+  }
+
 }
