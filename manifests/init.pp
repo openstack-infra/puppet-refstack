@@ -17,12 +17,20 @@
 # This class installs and updates refstack in a continuous-deployment fashion
 # directly from its git repositories.
 #
-class refstack () {
+class refstack (
+  $mysql_database      = 'refstack',
+  $mysql_user          = 'refstack',
+  $mysql_user_password,
+) {
 
   # Configure the entire refstack instance. This does not install anything,
   # but ensures that variables are consistent across all modules.
   class { '::refstack::params':
+    mysql_database         => $mysql_database,
+    mysql_user             => $mysql_user,
+    mysql_user_password    => $mysql_user_password,
   }
 
+  include ::refstack::mysql
   include ::refstack::api
 }

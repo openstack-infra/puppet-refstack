@@ -25,6 +25,13 @@ class refstack::params (
   # The user under which refstack will run.
   $user           = 'refstack',
   $group          = 'refstack',
+
+  # [database] refstack.conf
+  $mysql_user             = 'refstack',
+  $mysql_user_password,
+  $mysql_host             = localhost,
+  $mysql_port             = 3306,
+  $mysql_database         = 'refstack',
 ) {
 
   # Resolve a few parameters based on the install environment.
@@ -34,4 +41,8 @@ class refstack::params (
 
   # Create our install directory with a python-versioned name (because venv).
   $install_api_root       = "/var/lib/refstack-py${python_version}"
+
+  # Build the connection string from individual parameters
+  $mysql_connection_string = "mysql://${mysql_user}:${mysql_user_password}@${mysql_host}:${mysql_port}/${mysql_database}"
+
 }

@@ -21,3 +21,6 @@ fi
 if [ ! -d /etc/puppet/modules/vcsrepo ]; then
   puppet module install openstackci-vcsrepo --version 0.0.8
 fi
+if [ ! -d /etc/puppet/modules/mysql ]; then
+  puppet module install puppetlabs-mysql --version 0.6.1
+fi

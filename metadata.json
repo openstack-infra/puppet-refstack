@@ -15,6 +15,10 @@
     {
       "name": "openstackci/vcsrepo",
       "version_requirement": ">= 0.0.8"
+    },
+    {
+      "name": "puppetlabs/mysql",
+      "version_requirement": ">= 0.6.1"
     }
   ]
 }
