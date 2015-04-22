@@ -1,0 +1,60 @@
+WSGIPythonHome <%= @install_api_root %>
+
+<VirtualHost <%= @hostname %>:80>
+  <% if !!@server_admin %>
+    ServerAdmin <%= @server_admin %>
+  <% end %>
+    ServerName <%= @hostname %>
+
+    DocumentRoot <%= @install_www_root %>
+
+    Redirect / https://<%= @hostname %>/
+
+    LogLevel warn
+    ErrorLog ${APACHE_LOG_DIR}/storyboard-error.log
+    CustomLog ${APACHE_LOG_DIR}/storyboard-access.log combined
+
+</VirtualHost>
+<IfModule mod_ssl.c>
+  <VirtualHost <%= @hostname %>:443>
+  <% if !!@server_admin %>
+    ServerAdmin <%= @server_admin %>
+  <% end %>
+    ServerName <%= @hostname %>
+
+    LogLevel warn
+    ErrorLog ${APACHE_LOG_DIR}/storyboard-ssl-error.log
+    CustomLog ${APACHE_LOG_DIR}/storyboard-ssl-access.log combined
+
+    SSLEngine on
+
+    SSLCertificateFile      <%= @ssl_cert %>
+    SSLCertificateKeyFile   <%= @ssl_key %>
+  <% if !!@resolved_ssl_ca %>
+    SSLCertificateChainFile <%= @resolved_ssl_ca %>
+  <% end %>
+
+    <FilesMatch "\.(cgi|shtml|phtml|php)$">
+      SSLOptions +StdEnvVars
+    </FilesMatch>
+    <Directory /usr/lib/cgi-bin>
+      SSLOptions +StdEnvVars
+    </Directory>
+
+    BrowserMatch "MSIE [2-6]" \
+        nokeepalive ssl-unclean-shutdown \
+        downgrade-1.0 force-response-1.0
+    # MSIE 7 and newer should be able to use keepalive
+    BrowserMatch "MSIE [17-9]" ssl-unclean-shutdown
+
+    DocumentRoot <%= @install_www_root %>
+
+#    WSGIDaemonProcess storyboard user=<%= @user %> group=<%= @group %> threads=5
+#    WSGIScriptAlias /api <%= @install_api_root %>/lib/python<%= @python_version %>/site-packages/storyboard/api/app.wsgi
+#    WSGIPassAuthorization On
+
+    <Directory "<%= @install_api_root %>">
+        Require all granted
+    </Directory>
+  </VirtualHost>
+</IfModule>

@@ -15,12 +15,18 @@ if [ ! -d /etc/puppet/modules/refstack ]; then
 fi
 
 # Install required puppet modules.
-if [ ! -d /etc/puppet/modules/python ]; then
-  puppet module install stankevich-python --version 1.6.6
+if [ ! -d /etc/puppet/modules/stdlib ]; then
+  puppet module install puppetlabs-stdlib --version 3.2.0
+fi
+if [ ! -d /etc/puppet/modules/mysql ]; then
+  puppet module install puppetlabs-mysql --version 0.6.1
+fi
+if [ ! -d /etc/puppet/modules/apache ]; then
+  puppet module install puppetlabs-apache --version 0.0.4
 fi
 if [ ! -d /etc/puppet/modules/vcsrepo ]; then
   puppet module install openstackci-vcsrepo --version 0.0.8
 fi
-if [ ! -d /etc/puppet/modules/mysql ]; then
-  puppet module install puppetlabs-mysql --version 0.6.1
+if [ ! -d /etc/puppet/modules/python ]; then
+  puppet module install stankevich-python --version 1.6.6
 fi

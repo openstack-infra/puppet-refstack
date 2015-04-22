@@ -21,6 +21,7 @@ class refstack (
   $mysql_database      = 'refstack',
   $mysql_user          = 'refstack',
   $mysql_user_password,
+  $hostname            = $::ipaddress,
 ) {
 
   # Configure the entire refstack instance. This does not install anything,
@@ -29,8 +30,11 @@ class refstack (
     mysql_database         => $mysql_database,
     mysql_user             => $mysql_user,
     mysql_user_password    => $mysql_user_password,
+    hostname               => $hostname
   }
 
   include ::refstack::mysql
   include ::refstack::api
+
+  include ::refstack::apache::http
 }

@@ -8,6 +8,8 @@ description 'This module installs and maintains the OpenStack RefStack service.'
 project_page 'https://github.com/openstack-ci/puppet-refstack'
 
 ## Add dependencies, if any:
-dependency 'stankevich/python', '= 1.6.6'
-dependency 'openstackci/vcsrepo', '= 0.0.8'
+dependency 'puppetlabs/stdlib', '= 3.2.0'
 dependency 'puppetlabs/mysql', '= 0.6.1'
+dependency 'puppetlabs/apache', '= 0.0.4'
+dependency 'openstackci/vcsrepo', '= 0.0.8'
+dependency 'stankevich/python', '= 1.6.6'

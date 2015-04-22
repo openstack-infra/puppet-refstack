@@ -17,14 +17,18 @@
 # Centralized configuration management for the refstack module.
 #
 class refstack::params (
-  $python_version = '2.7',
+  $python_version         = '2.7',
 
   # Source and install directories.
-  $src_api_root   = '/opt/refstack-api',
+  $src_api_root           = '/opt/refstack-api',
+  $src_www_root           = '/opt/refstack-www',
+  $install_www_root       = '/var/www/refstack-www',
 
   # The user under which refstack will run.
-  $user           = 'refstack',
-  $group          = 'refstack',
+  $user                   = 'refstack',
+  $group                  = 'refstack',
+  $server_admin           = undef,
+  $hostname               = $::ipaddress,
 
   # [database] refstack.conf
   $mysql_user             = 'refstack',
@@ -32,6 +36,14 @@ class refstack::params (
   $mysql_host             = localhost,
   $mysql_port             = 3306,
   $mysql_database         = 'refstack',
+
+  # Apache2 ssl configuration
+  $ssl_cert_content = undef,
+  $ssl_cert         = '/etc/ssl/certs/refstack.pem',
+  $ssl_key_content  = undef,
+  $ssl_key          = '/etc/ssl/private/refstack.key',
+  $ssl_ca_content   = undef,
+  $ssl_ca           = undef, # '/etc/ssl/certs/ca.pem'
 ) {
 
   # Resolve a few parameters based on the install environment.
@@ -45,4 +57,11 @@ class refstack::params (
   # Build the connection string from individual parameters
   $mysql_connection_string = "mysql://${mysql_user}:${mysql_user_password}@${mysql_host}:${mysql_port}/${mysql_database}"
 
+  # CA file needs special treatment, since we want the path variable
+  # to be undef in some cases.
+  if $ssl_ca == undef and $ssl_ca_content != undef {
+    $resolved_ssl_ca = '/etc/ssl/certs/storyboard.ca.pem'
+  } else {
+    $resolved_ssl_ca = $ssl_ca
+  }
 }

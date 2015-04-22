@@ -9,16 +9,36 @@
   "issues_url": "https://refstack.openstack.org/#!/project/700",
   "dependencies": [
     {
-      "name": "stankevich/python",
-      "version_requirement": ">= 1.6.6"
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.2.0"
+    },
+    {
+      "name": "puppetlabs/mysql",
+      "version_requirement": ">= 0.6.1"
+    },
+    {
+      "name": "openstackci/httpd",
+      "version_requirement": "= 0.0.4"
+    },
+    {
+      "name": "puppetlabs/rabbitmq",
+      "version_requirement": ">= 4.0.0"
+    },
+    {
+      "name": "example42/puppi",
+      "version_requirement": ">= 2.1.9"
     },
     {
       "name": "openstackci/vcsrepo",
       "version_requirement": ">= 0.0.8"
     },
     {
-      "name": "puppetlabs/mysql",
-      "version_requirement": ">= 0.6.1"
+      "name": "stankevich/python",
+      "version_requirement": ">= 1.6.6"
+    },
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.2.0"
     }
   ]
 }

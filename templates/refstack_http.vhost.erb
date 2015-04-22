@@ -1,0 +1,21 @@
+WSGIPythonHome <%= @install_api_root %>
+
+<VirtualHost <%= @hostname %>:80>
+<% if !!@server_admin %>
+  ServerAdmin <%= @server_admin %>
+<% end %>
+  ServerName <%= @hostname %>
+
+  DocumentRoot <%= @install_www_root %>
+
+#  WSGIDaemonProcess refstack user=<%= @user %> group=<%= @group %> threads=5
+#  WSGIScriptAlias /api <%= @install_api_root %>/lib/python<%= @python_version %>/site-packages/refstack/api/app.wsgi
+#  WSGIPassAuthorization On
+  LogLevel warn
+  ErrorLog ${APACHE_LOG_DIR}/refstack-error.log
+  CustomLog ${APACHE_LOG_DIR}/refstack-access.log combined
+
+  <Directory "<%= @install_api_root %>">
+      Require all granted
+  </Directory>
+</VirtualHost>
