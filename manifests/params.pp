@@ -55,7 +55,7 @@ class refstack::params (
   $install_api_root       = "/var/lib/refstack-py${python_version}"
 
   # Build the connection string from individual parameters
-  $mysql_connection_string = "mysql://${mysql_user}:${mysql_user_password}@${mysql_host}:${mysql_port}/${mysql_database}"
+  $mysql_connection_string = "mysql+pymysql://${mysql_user}:${mysql_user_password}@${mysql_host}:${mysql_port}/${mysql_database}"
 
   # CA file needs special treatment, since we want the path variable
   # to be undef in some cases.

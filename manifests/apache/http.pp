@@ -20,22 +20,49 @@
 class refstack::apache::http () {
   require ::refstack::params
   require ::refstack::api
-  # require ::refstack::app
+  require ::refstack::app
 
-  # Pull various variables into this module, for slightly saner templates.
+# Pull various variables into this module, for slightly saner templates.
   $install_api_root       = $::refstack::params::install_api_root
   $install_www_root       = $::refstack::params::install_www_root
+  $src_www_root           = $::refstack::params::src_www_root
   $hostname               = $::refstack::params::hostname
   $user                   = $::refstack::params::user
   $group                  = $::refstack::params::group
   $server_admin           = $::refstack::params::server_admin
   $python_version         = $::refstack::params::python_version
 
-  # Install apache
+# Install apache
   include apache
+  include apache::params
   include apache::mod::wsgi
 
-  # Set up refstack as HTTP
+  # Create a copy of the wsgi file with apache user permissions.
+  file { '/etc/refstack/app.wsgi':
+    ensure   => present,
+    owner    => $::apache::params::user,
+    group    => $::apache::params::group,
+    mode     => '0644',
+    source  => "${src_www_root}/refstack/api/app.wsgi",
+    require  => [
+      Class['refstack::api']
+    ],
+    notify   => Service['httpd'],
+  }
+
+# Synchronize the app directory and the apache directory.
+  file { $install_www_root:
+    ensure   => directory,
+    owner    => $::apache::params::user,
+    group    => $::apache::params::group,
+    source   => "${src_www_root}/refstack-ui/app",
+    recurse  => true,
+    purge    => true,
+    force    => true,
+    notify   => Service['httpd'],
+  }
+
+# Set up refstack as HTTP
   apache::vhost { $hostname:
     port     => 80,
     docroot  => $install_www_root,
@@ -43,5 +70,6 @@ class refstack::apache::http () {
     template => 'refstack/refstack_http.vhost.erb',
     ssl      => false,
     notify   => Service['httpd'],
+    require  => File['/etc/refstack/app.wsgi'],
   }
 }

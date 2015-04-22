@@ -34,7 +34,7 @@ class refstack (
   }
 
   include ::refstack::mysql
+  include ::refstack::app
   include ::refstack::api
-
   include ::refstack::apache::http
 }

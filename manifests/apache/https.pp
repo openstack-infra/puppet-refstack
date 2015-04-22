@@ -18,14 +18,14 @@
 # protocol.
 #
 class refstack::apache::https () {
-
   require ::refstack::params
   require ::refstack::api
-# require ::refstack::app
+  require ::refstack::app
 
   # Pull various variables into this module, for slightly saner templates.
   $install_api_root       = $::refstack::params::install_api_root
   $install_www_root       = $::refstack::params::install_www_root
+  $src_www_root           = $::refstack::params::src_www_root
   $hostname               = $::refstack::params::hostname
   $user                   = $::refstack::params::user
   $group                  = $::refstack::params::group
@@ -41,7 +41,21 @@ class refstack::apache::https () {
 
   # Install apache
   include apache
+  include apache::params
   include apache::mod::wsgi
+
+  # Create a copy of the wsgi file with apache user permissions.
+  file { '/etc/refstack/app.wsgi':
+    ensure   => present,
+    owner    => $::apache::params::user,
+    group    => $::apache::params::group,
+    mode     => '0644',
+    source  => "${src_www_root}/refstack/api/app.wsgi",
+    require  => [
+      Class['refstack::api']
+    ],
+    notify   => Service['httpd'],
+  }
 
   if $ssl_cert_content != undef {
     file { $ssl_cert:
@@ -73,6 +87,18 @@ class refstack::apache::https () {
     }
   }
 
+  # Synchronize the app directory and the apache directory.
+  file { $install_www_root:
+    ensure   => directory,
+    owner    => $::apache::params::user,
+    group    => $::apache::params::group,
+    source   => "${src_www_root}/refstack-ui/app",
+    recurse  => true,
+    purge    => true,
+    force    => true,
+    notify   => Service['httpd'],
+  }
+
   # Set up ::refstack as HTTPS
   apache::vhost { $hostname:
     port     => 443,
@@ -81,5 +107,6 @@ class refstack::apache::https () {
     template => 'refstack/refstack_https.vhost.erb',
     ssl      => true,
     notify   => Service['httpd'],
+    require  => File['/etc/refstack/app.wsgi'],
   }
 }

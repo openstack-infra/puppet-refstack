@@ -49,12 +49,15 @@ WSGIPythonHome <%= @install_api_root %>
 
     DocumentRoot <%= @install_www_root %>
 
-#    WSGIDaemonProcess storyboard user=<%= @user %> group=<%= @group %> threads=5
-#    WSGIScriptAlias /api <%= @install_api_root %>/lib/python<%= @python_version %>/site-packages/storyboard/api/app.wsgi
-#    WSGIPassAuthorization On
+    WSGIDaemonProcess refstack user=<%= @user %> group=<%= @group %> threads=5
+    WSGIScriptAlias /api /etc/refstack/app.wsgi
+    WSGIPassAuthorization On
 
     <Directory "<%= @install_api_root %>">
         Require all granted
+    </Directory>
+    <Directory "/etc/refstack">
+      Require all granted
     </Directory>
   </VirtualHost>
 </IfModule>
