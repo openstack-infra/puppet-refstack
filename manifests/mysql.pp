@@ -35,5 +35,6 @@ class refstack::mysql () {
     password => $mysql_user_password,
     host     => 'localhost',
     grant    => ['all'],
+    charset => 'latin1', #TODO(krotscheck):Remove once 176364 merges
   }
 }
