@@ -69,7 +69,7 @@ class refstack::app () {
   exec { 'npm install':
     command     => 'npm install',
     path        => "/usr/local/bin:/usr/bin:/bin/",
-    cwd         => "${src_www_root}/refstack-ui",
+    cwd         => $src_www_root,
     user        => $user,
     group       => $group,
     refreshonly => true,
