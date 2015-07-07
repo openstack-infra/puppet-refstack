@@ -27,10 +27,10 @@ class refstack (
   # Configure the entire refstack instance. This does not install anything,
   # but ensures that variables are consistent across all modules.
   class { '::refstack::params':
-    mysql_database         => $mysql_database,
-    mysql_user             => $mysql_user,
-    mysql_user_password    => $mysql_user_password,
-    hostname               => $hostname
+    mysql_database      => $mysql_database,
+    mysql_user          => $mysql_user,
+    mysql_user_password => $mysql_user_password,
+    hostname            => $hostname
   }
 
   include ::refstack::mysql

@@ -31,7 +31,7 @@ class refstack::apache::https () {
   $group                  = $::refstack::params::group
   $server_admin           = $::refstack::params::server_admin
   $python_version         = $::refstack::params::python_version
-  
+
   $ssl_cert_content       = $::refstack::params::ssl_cert_content
   $ssl_cert               = $::refstack::params::ssl_cert
   $ssl_key_content        = $::refstack::params::ssl_key_content
@@ -46,15 +46,15 @@ class refstack::apache::https () {
 
   # Create a copy of the wsgi file with apache user permissions.
   file { '/etc/refstack/app.wsgi':
-    ensure   => present,
-    owner    => $::apache::params::user,
-    group    => $::apache::params::group,
-    mode     => '0644',
+    ensure  => present,
+    owner   => $::apache::params::user,
+    group   => $::apache::params::group,
+    mode    => '0644',
     source  => "${src_www_root}/refstack/api/app.wsgi",
-    require  => [
+    require => [
       Class['refstack::api']
     ],
-    notify   => Service['httpd'],
+    notify  => Service['httpd'],
   }
 
   if $ssl_cert_content != undef {
@@ -89,14 +89,14 @@ class refstack::apache::https () {
 
   # Synchronize the app directory and the apache directory.
   file { $install_www_root:
-    ensure   => directory,
-    owner    => $::apache::params::user,
-    group    => $::apache::params::group,
-    source   => "${src_www_root}/refstack-ui/app",
-    recurse  => true,
-    purge    => true,
-    force    => true,
-    notify   => Service['httpd'],
+    ensure  => directory,
+    owner   => $::apache::params::user,
+    group   => $::apache::params::group,
+    source  => "${src_www_root}/refstack-ui/app",
+    recurse => true,
+    purge   => true,
+    force   => true,
+    notify  => Service['httpd'],
   }
 
   # Set up ::refstack as HTTPS
