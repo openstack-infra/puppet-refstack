@@ -80,20 +80,20 @@ class refstack::api () {
 
   # Create the install directory and virtual environment
   file { $install_api_root:
-    ensure  => directory,
-    owner   => $user,
-    group   => $group,
+    ensure => directory,
+    owner  => $user,
+    group  => $group,
   }
   python::virtualenv { $install_api_root:
-    ensure       => present,
-    version      => $python_version,
-    owner        => $user,
-    group        => $group,
-    require      => [
+    ensure     => present,
+    version    => $python_version,
+    owner      => $user,
+    group      => $group,
+    require    => [
       File[$install_api_root],
       Class['python::install'],
     ],
-    systempkgs   => true,
+    systempkgs => true,
   }
 
   # Run pip from the venv, install refstack.

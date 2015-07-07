@@ -68,7 +68,7 @@ class refstack::app () {
   # Run NPM Install
   exec { 'npm install':
     command     => 'npm install',
-    path        => "/usr/local/bin:/usr/bin:/bin/",
+    path        => '/usr/local/bin:/usr/bin:/bin/',
     cwd         => $src_www_root,
     user        => $user,
     group       => $group,
