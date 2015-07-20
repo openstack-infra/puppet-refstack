@@ -85,4 +85,11 @@ class refstack::app () {
       'HOME=/home/refstack'
     ]
   }
+
+  # Create config.json file
+  file { "${src_www_root}/refstack-ui/app/config.json":
+    ensure  => file,
+    content => '{"refstackApiUrl": "/api/v1"}',
+    require => Vcsrepo[$src_www_root],
+  }
 }
