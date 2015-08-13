@@ -27,7 +27,7 @@ class refstack::mysql () {
   $mysql_user_password = $refstack::params::mysql_user_password
 
   # Install MySQL
-  include mysql::server
+  include ::mysql::server
 
   # Add the refstack database.
   mysql::db { $mysql_database:

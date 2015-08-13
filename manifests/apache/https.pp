@@ -40,9 +40,9 @@ class refstack::apache::https () {
   $resolved_ssl_ca        = $::refstack::params::resolved_ssl_ca
 
   # Install apache
-  include apache
-  include apache::params
-  include apache::mod::wsgi
+  include ::apache
+  include ::apache::params
+  include ::apache::mod::wsgi
 
   # Create a copy of the wsgi file with apache user permissions.
   file { '/etc/refstack/app.wsgi':

@@ -27,13 +27,13 @@ class refstack::api () {
   $user                   = $::refstack::params::user
   $group                  = $::refstack::params::group
 
-  class { 'python':
+  class { '::python':
     version    => $python_version,
     pip        => true,
     dev        => true,
     virtualenv => true,
   }
-  include python::install
+  include ::python::install
 
   # Ensure Git is present
   if !defined(Package['git']) {

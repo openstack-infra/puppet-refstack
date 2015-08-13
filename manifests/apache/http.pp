@@ -33,9 +33,9 @@ class refstack::apache::http () {
   $python_version         = $::refstack::params::python_version
 
 # Install apache
-  include apache
-  include apache::params
-  include apache::mod::wsgi
+  include ::apache
+  include ::apache::params
+  include ::apache::mod::wsgi
 
   # Create a copy of the wsgi file with apache user permissions.
   file { '/etc/refstack/app.wsgi':
