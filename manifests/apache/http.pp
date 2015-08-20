@@ -14,7 +14,7 @@
 
 # == Class: refstack::apache::http
 #
-# This module installs refstack onto the current host using an unecrypted http
+# This module installs RefStack onto the current host using an unecrypted http
 # protocol.
 #
 class refstack::apache::http () {
@@ -23,14 +23,12 @@ class refstack::apache::http () {
   require ::refstack::app
 
 # Pull various variables into this module, for slightly saner templates.
-  $install_api_root       = $::refstack::params::install_api_root
   $install_www_root       = $::refstack::params::install_www_root
   $src_www_root           = $::refstack::params::src_www_root
   $hostname               = $::refstack::params::hostname
   $user                   = $::refstack::params::user
   $group                  = $::refstack::params::group
   $server_admin           = $::refstack::params::server_admin
-  $python_version         = $::refstack::params::python_version
 
 # Install apache
   include ::apache

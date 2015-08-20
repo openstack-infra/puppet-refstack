@@ -1,5 +1,3 @@
-WSGIPythonHome <%= @install_api_root %>
-
 <VirtualHost <%= @hostname %>:80>
 <% if !!@server_admin %>
   ServerAdmin <%= @server_admin %>
@@ -15,9 +13,6 @@ WSGIPythonHome <%= @install_api_root %>
   ErrorLog ${APACHE_LOG_DIR}/refstack-error.log
   CustomLog ${APACHE_LOG_DIR}/refstack-access.log combined
 
-  <Directory "<%= @install_api_root %>">
-      Require all granted
-  </Directory>
   <Directory "/etc/refstack">
     Require all granted
   </Directory>

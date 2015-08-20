@@ -9,6 +9,9 @@ if [ ! -f /etc/apt/sources.list.d/puppetlabs.list ]; then
   sudo apt-get dist-upgrade -y
 fi
 
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python get-pip.py
+
 # Create a symlink to the vagrant directory, so puppet can find our module.
 if [ ! -d /etc/puppet/modules/refstack ]; then
   sudo ln -s /vagrant /etc/puppet/modules/refstack
@@ -26,7 +29,4 @@ if [ ! -d /etc/puppet/modules/apache ]; then
 fi
 if [ ! -d /etc/puppet/modules/vcsrepo ]; then
   puppet module install openstackci-vcsrepo --version 0.0.8
-fi
-if [ ! -d /etc/puppet/modules/python ]; then
-  puppet module install stankevich-python --version 1.6.6
 fi

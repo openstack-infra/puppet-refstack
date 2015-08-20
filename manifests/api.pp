@@ -14,26 +14,16 @@
 
 # == Class: refstack::api
 #
-# This class installs the refstack API so that it may be run via wsgi.
+# This class installs the RefStack API so that it may be run via wsgi.
 #
 class refstack::api () {
   require ::refstack::params
   require ::refstack::user
 
   # Import parameters into local scope.
-  $python_version         = $::refstack::params::python_version
   $src_api_root           = $::refstack::params::src_api_root
-  $install_api_root       = $::refstack::params::install_api_root
   $user                   = $::refstack::params::user
   $group                  = $::refstack::params::group
-
-  class { '::python':
-    version    => $python_version,
-    pip        => true,
-    dev        => true,
-    virtualenv => true,
-  }
-  include ::python::install
 
   # Ensure Git is present
   if !defined(Package['git']) {
@@ -49,7 +39,14 @@ class refstack::api () {
     }
   }
 
-  # Create the refstack configuration directory.
+  # Ensure python-dev is present
+  if !defined(Package['python-dev']) {
+    package { 'python-dev':
+      ensure => present
+    }
+  }
+
+  # Create the RefStack configuration directory.
   file { '/etc/refstack':
     ensure => directory,
     owner  => $user,
@@ -57,7 +54,7 @@ class refstack::api () {
     mode   => '0755',
   }
 
-  # Configure the refstack API
+  # Configure the RefStack API
   file { '/etc/refstack/refstack.conf':
     ensure  => present,
     owner   => $user,
@@ -69,7 +66,7 @@ class refstack::api () {
     ]
   }
 
-  # Download the latest Refstack Source
+  # Download the latest RefStack Source
   vcsrepo { $src_api_root:
     ensure   => latest,
     provider => git,
@@ -78,29 +75,10 @@ class refstack::api () {
     require  => Package['git']
   }
 
-  # Create the install directory and virtual environment
-  file { $install_api_root:
-    ensure => directory,
-    owner  => $user,
-    group  => $group,
-  }
-  python::virtualenv { $install_api_root:
-    ensure     => present,
-    version    => $python_version,
-    owner      => $user,
-    group      => $group,
-    require    => [
-      File[$install_api_root],
-      Class['python::install'],
-    ],
-    systempkgs => true,
-  }
-
-  # Run pip from the venv, install refstack.
-  exec { 'pip install':
-    command     => "${install_api_root}/bin/pip install ${src_api_root}",
-    user        => $user,
-    group       => $group,
+  # Install RefStack
+  exec { 'install-refstack':
+    command     => "pip install ${src_api_root}",
+    path        => '/usr/local/bin:/usr/bin:/bin',
     refreshonly => true,
     require     => Vcsrepo[$src_api_root],
     subscribe   => Vcsrepo[$src_api_root],
@@ -109,14 +87,14 @@ class refstack::api () {
   # Migrate the database
   exec { 'migrate-refstack-db':
     command     => 'refstack-manage --config-file /etc/refstack/refstack.conf upgrade --revision head',
-    path        => "${install_api_root}/bin/:/usr/local/bin:/usr/bin:/bin/",
+    path        => '/usr/local/bin:/usr/bin:/bin/',
     refreshonly => true,
     subscribe   => [
-      Exec['pip install'],
+      Exec['install-refstack'],
       File['/etc/refstack/refstack.conf'],
     ],
     require     => [
-      Exec['pip install'],
+      Exec['install-refstack'],
       File['/etc/refstack/refstack.conf'],
     ],
   }

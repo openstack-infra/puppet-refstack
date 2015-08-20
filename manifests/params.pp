@@ -14,10 +14,9 @@
 
 # == Class: refstack::params
 #
-# Centralized configuration management for the refstack module.
+# Centralized configuration management for the RefStack module.
 #
 class refstack::params (
-  $python_version         = '2.7',
 
   # Source and install directories.
   $src_api_root           = '/opt/refstack-api',
@@ -51,16 +50,13 @@ class refstack::params (
     fail("${::operatingsystem} ${::operatingsystemrelease} is not supported.")
   }
 
-  # Create our install directory with a python-versioned name (because venv).
-  $install_api_root       = "/var/lib/refstack-py${python_version}"
-
   # Build the connection string from individual parameters
   $mysql_connection_string = "mysql+pymysql://${mysql_user}:${mysql_user_password}@${mysql_host}:${mysql_port}/${mysql_database}"
 
   # CA file needs special treatment, since we want the path variable
   # to be undef in some cases.
   if $ssl_ca == undef and $ssl_ca_content != undef {
-    $resolved_ssl_ca = '/etc/ssl/certs/storyboard.ca.pem'
+    $resolved_ssl_ca = '/etc/ssl/certs/refstack.ca.pem'
   } else {
     $resolved_ssl_ca = $ssl_ca
   }
