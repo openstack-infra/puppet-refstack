@@ -11,8 +11,8 @@ WSGIPythonHome <%= @install_api_root %>
     Redirect / https://<%= @hostname %>/
 
     LogLevel warn
-    ErrorLog ${APACHE_LOG_DIR}/storyboard-error.log
-    CustomLog ${APACHE_LOG_DIR}/storyboard-access.log combined
+    ErrorLog ${APACHE_LOG_DIR}/refstack-error.log
+    CustomLog ${APACHE_LOG_DIR}/refstack-access.log combined
 
 </VirtualHost>
 <IfModule mod_ssl.c>
@@ -23,8 +23,8 @@ WSGIPythonHome <%= @install_api_root %>
     ServerName <%= @hostname %>
 
     LogLevel warn
-    ErrorLog ${APACHE_LOG_DIR}/storyboard-ssl-error.log
-    CustomLog ${APACHE_LOG_DIR}/storyboard-ssl-access.log combined
+    ErrorLog ${APACHE_LOG_DIR}/refstack-ssl-error.log
+    CustomLog ${APACHE_LOG_DIR}/refstack-ssl-access.log combined
 
     SSLEngine on
 

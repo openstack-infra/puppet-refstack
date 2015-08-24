@@ -14,7 +14,7 @@
 
 # == Class: refstack::user
 #
-# Sets up the refstack user.
+# Sets up the RefStack user.
 #
 class refstack::user () {
   require refstack::params
@@ -24,7 +24,7 @@ class refstack::user () {
   $group        = $::refstack::params::group
 
   group { $group:
-    ensure               => present
+    ensure => present
   }
 
   user { $user:

@@ -14,7 +14,7 @@
 
 # == Class: refstack::app
 #
-# This class installs the refstack JavaScript Webclient (or app).
+# This class installs the RefStack JavaScript Webclient (or app).
 #
 # Much of this module is duplicated in ::refstack::api, however it's separated
 # here so that any future project splits (api vs. client) can be treated
@@ -54,7 +54,7 @@ class refstack::app () {
     }
   }
 
-  # Download the latest Refstack Source
+  # Download the latest RefStack Source.
   vcsrepo { $src_www_root:
     ensure   => latest,
     owner    => $user,
@@ -65,7 +65,7 @@ class refstack::app () {
     require  => Package['git']
   }
 
-  # Run NPM Install
+  # Run NPM Install.
   exec { 'npm install':
     command     => 'npm install',
     path        => '/usr/local/bin:/usr/bin:/bin/',
@@ -86,7 +86,7 @@ class refstack::app () {
     ]
   }
 
-  # Create config.json file
+  # Create config.json file.
   file { "${src_www_root}/refstack-ui/app/config.json":
     ensure  => file,
     content => '{"refstackApiUrl": "/api/v1"}',

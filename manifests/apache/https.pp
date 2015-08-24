@@ -14,7 +14,7 @@
 
 # == Class: refstack::apache::https
 #
-# This module installs refstack onto the current host using an the https
+# This module installs RefStack onto the current host using an the https
 # protocol.
 #
 class refstack::apache::https () {
@@ -99,7 +99,7 @@ class refstack::apache::https () {
     notify  => Service['httpd'],
   }
 
-  # Set up ::refstack as HTTPS
+  # Set up RefStack as HTTPS.
   apache::vhost { $hostname:
     port     => 443,
     docroot  => $install_www_root,

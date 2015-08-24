@@ -14,7 +14,7 @@
 
 # == Class: refstack
 #
-# This class installs and updates refstack in a continuous-deployment fashion
+# This class installs and updates RefStack in a continuous-deployment fashion
 # directly from its git repositories.
 #
 class refstack (

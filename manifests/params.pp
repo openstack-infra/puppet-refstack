@@ -14,7 +14,7 @@
 
 # == Class: refstack::params
 #
-# Centralized configuration management for the refstack module.
+# Centralized configuration management for the Refstack module.
 #
 class refstack::params (
   $python_version         = '2.7',
@@ -60,7 +60,7 @@ class refstack::params (
   # CA file needs special treatment, since we want the path variable
   # to be undef in some cases.
   if $ssl_ca == undef and $ssl_ca_content != undef {
-    $resolved_ssl_ca = '/etc/ssl/certs/storyboard.ca.pem'
+    $resolved_ssl_ca = '/etc/ssl/certs/refstack.ca.pem'
   } else {
     $resolved_ssl_ca = $ssl_ca
   }

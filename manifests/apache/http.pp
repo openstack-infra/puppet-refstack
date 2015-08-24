@@ -14,7 +14,7 @@
 
 # == Class: refstack::apache::http
 #
-# This module installs refstack onto the current host using an unecrypted http
+# This module installs RefStack onto the current host using an unencrypted http
 # protocol.
 #
 class refstack::apache::http () {
@@ -22,7 +22,7 @@ class refstack::apache::http () {
   require ::refstack::api
   require ::refstack::app
 
-# Pull various variables into this module, for slightly saner templates.
+  # Pull various variables into this module, for slightly saner templates.
   $install_api_root       = $::refstack::params::install_api_root
   $install_www_root       = $::refstack::params::install_www_root
   $src_www_root           = $::refstack::params::src_www_root
@@ -32,7 +32,7 @@ class refstack::apache::http () {
   $server_admin           = $::refstack::params::server_admin
   $python_version         = $::refstack::params::python_version
 
-# Install apache
+  # Install apache
   include ::apache
   include ::apache::params
   include ::apache::mod::wsgi
@@ -50,7 +50,7 @@ class refstack::apache::http () {
     notify  => Service['httpd'],
   }
 
-# Synchronize the app directory and the apache directory.
+  # Synchronize the app directory and the apache directory.
   file { $install_www_root:
     ensure  => directory,
     owner   => $::apache::params::user,
@@ -62,7 +62,7 @@ class refstack::apache::http () {
     notify  => Service['httpd'],
   }
 
-# Set up refstack as HTTP
+  # Set up RefStack as HTTP.
   apache::vhost { $hostname:
     port     => 80,
     docroot  => $install_www_root,

@@ -2,7 +2,7 @@
   "name": "openstackci-refstack",
   "version": "0.0.1",
   "author": "Openstack CI",
-  "summary": "Puppet module for the OpenStack refstack",
+  "summary": "Puppet module for the OpenStack RefStack",
   "license": "Apache 2.0",
   "source": "git://git.openstack.org/openstack-infra/puppet-refstack.git",
   "project_page": "http://ci.openstack.org/",
@@ -21,24 +21,12 @@
       "version_requirement": "= 0.0.4"
     },
     {
-      "name": "puppetlabs/rabbitmq",
-      "version_requirement": ">= 4.0.0"
-    },
-    {
-      "name": "example42/puppi",
-      "version_requirement": ">= 2.1.9"
-    },
-    {
       "name": "openstackci/vcsrepo",
       "version_requirement": ">= 0.0.8"
     },
     {
       "name": "stankevich/python",
       "version_requirement": ">= 1.6.6"
-    },
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 3.2.0"
     }
   ]
 }

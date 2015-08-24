@@ -14,7 +14,7 @@
 
 # == Class: refstack::mysql
 #
-# The Refstack MySQL manifest will install a standalone, localhost instance
+# The RefStack MySQL manifest will install a standalone, localhost instance
 # of mysql for refstack to connect to.
 #
 class refstack::mysql () {

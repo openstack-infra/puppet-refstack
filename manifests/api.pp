@@ -14,7 +14,7 @@
 
 # == Class: refstack::api
 #
-# This class installs the refstack API so that it may be run via wsgi.
+# This class installs the RefStack API so that it may be run via wsgi.
 #
 class refstack::api () {
   require ::refstack::params
@@ -49,7 +49,7 @@ class refstack::api () {
     }
   }
 
-  # Create the refstack configuration directory.
+  # Create the RefStack configuration directory.
   file { '/etc/refstack':
     ensure => directory,
     owner  => $user,
@@ -57,7 +57,7 @@ class refstack::api () {
     mode   => '0755',
   }
 
-  # Configure the refstack API
+  # Configure the RefStack API.
   file { '/etc/refstack/refstack.conf':
     ensure  => present,
     owner   => $user,
@@ -69,7 +69,7 @@ class refstack::api () {
     ]
   }
 
-  # Download the latest Refstack Source
+  # Download the latest RefStack Source.
   vcsrepo { $src_api_root:
     ensure   => latest,
     provider => git,
@@ -78,7 +78,7 @@ class refstack::api () {
     require  => Package['git']
   }
 
-  # Create the install directory and virtual environment
+  # Create the install directory and virtual environment.
   file { $install_api_root:
     ensure => directory,
     owner  => $user,
@@ -96,8 +96,8 @@ class refstack::api () {
     systempkgs => true,
   }
 
-  # Run pip from the venv, install refstack.
-  exec { 'pip install':
+  # Install RefStack using pip.
+  exec { 'install-refstack':
     command     => "${install_api_root}/bin/pip install ${src_api_root}",
     user        => $user,
     group       => $group,
@@ -106,17 +106,17 @@ class refstack::api () {
     subscribe   => Vcsrepo[$src_api_root],
   }
 
-  # Migrate the database
+  # Migrate the database.
   exec { 'migrate-refstack-db':
     command     => 'refstack-manage --config-file /etc/refstack/refstack.conf upgrade --revision head',
     path        => "${install_api_root}/bin/:/usr/local/bin:/usr/bin:/bin/",
     refreshonly => true,
     subscribe   => [
-      Exec['pip install'],
+      Exec['install-refstack'],
       File['/etc/refstack/refstack.conf'],
     ],
     require     => [
-      Exec['pip install'],
+      Exec['install-refstack'],
       File['/etc/refstack/refstack.conf'],
     ],
   }
