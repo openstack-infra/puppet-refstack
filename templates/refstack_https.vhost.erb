@@ -1,5 +1,3 @@
-WSGIPythonHome <%= @install_api_root %>
-
 <VirtualHost <%= @hostname %>:80>
   <% if !!@server_admin %>
     ServerAdmin <%= @server_admin %>
@@ -53,9 +51,6 @@ WSGIPythonHome <%= @install_api_root %>
     WSGIScriptAlias /api /etc/refstack/app.wsgi
     WSGIPassAuthorization On
 
-    <Directory "<%= @install_api_root %>">
-        Require all granted
-    </Directory>
     <Directory "/etc/refstack">
       Require all granted
     </Directory>

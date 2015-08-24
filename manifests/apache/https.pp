@@ -23,14 +23,12 @@ class refstack::apache::https () {
   require ::refstack::app
 
   # Pull various variables into this module, for slightly saner templates.
-  $install_api_root       = $::refstack::params::install_api_root
   $install_www_root       = $::refstack::params::install_www_root
   $src_www_root           = $::refstack::params::src_www_root
   $hostname               = $::refstack::params::hostname
   $user                   = $::refstack::params::user
   $group                  = $::refstack::params::group
   $server_admin           = $::refstack::params::server_admin
-  $python_version         = $::refstack::params::python_version
 
   $ssl_cert_content       = $::refstack::params::ssl_cert_content
   $ssl_cert               = $::refstack::params::ssl_cert

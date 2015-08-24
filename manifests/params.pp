@@ -17,7 +17,6 @@
 # Centralized configuration management for the Refstack module.
 #
 class refstack::params (
-  $python_version         = '2.7',
 
   # Source and install directories.
   $src_api_root           = '/opt/refstack-api',
@@ -50,9 +49,6 @@ class refstack::params (
   if $::operatingsystem != 'Ubuntu' or $::operatingsystemrelease < 13.10 {
     fail("${::operatingsystem} ${::operatingsystemrelease} is not supported.")
   }
-
-  # Create our install directory with a python-versioned name (because venv).
-  $install_api_root       = "/var/lib/refstack-py${python_version}"
 
   # Build the connection string from individual parameters
   $mysql_connection_string = "mysql+pymysql://${mysql_user}:${mysql_user_password}@${mysql_host}:${mysql_port}/${mysql_database}"

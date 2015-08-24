@@ -23,10 +23,6 @@
     {
       "name": "openstackci/vcsrepo",
       "version_requirement": ">= 0.0.8"
-    },
-    {
-      "name": "stankevich/python",
-      "version_requirement": ">= 1.6.6"
     }
   ]
 }
