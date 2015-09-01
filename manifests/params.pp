@@ -54,6 +54,9 @@ class refstack::params (
   # Build the connection string from individual parameters
   $mysql_connection_string = "mysql+pymysql://${mysql_user}:${mysql_user_password}@${mysql_host}:${mysql_port}/${mysql_database}"
 
+  # Construct website URL.
+  $web_url = "${protocol}://${hostname}"
+
   # CA file needs special treatment, since we want the path variable
   # to be undef in some cases.
   if $ssl_ca == undef and $ssl_ca_content != undef {
