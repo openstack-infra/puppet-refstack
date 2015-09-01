@@ -28,7 +28,8 @@ class refstack::params (
   $user                   = 'refstack',
   $group                  = 'refstack',
   $server_admin           = undef,
-  $hostname               = $::ipaddress,
+  $hostname               = $::fqdn,
+  $protocol               = 'http',
 
   # [database] refstack.conf
   $mysql_user             = 'refstack',
