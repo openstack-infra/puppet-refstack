@@ -25,6 +25,7 @@
     CustomLog ${APACHE_LOG_DIR}/refstack-ssl-access.log combined
 
     SSLEngine on
+    SSLProtocol All -SSLv2 -SSLv3
 
     SSLCertificateFile      <%= @ssl_cert %>
     SSLCertificateKeyFile   <%= @ssl_key %>

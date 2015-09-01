@@ -27,7 +27,8 @@ class refstack::params (
   $user                   = 'refstack',
   $group                  = 'refstack',
   $server_admin           = undef,
-  $hostname               = $::ipaddress,
+  $hostname               = $::fqdn,
+  $protocol               = 'http',
 
   # [database] refstack.conf
   $mysql_user             = 'refstack',
@@ -38,9 +39,9 @@ class refstack::params (
 
   # Apache2 ssl configuration
   $ssl_cert_content = undef,
-  $ssl_cert         = '/etc/ssl/certs/refstack.pem',
+  $ssl_cert         = '/etc/ssl/certs/ssl-cert-snakeoil.pem',
   $ssl_key_content  = undef,
-  $ssl_key          = '/etc/ssl/private/refstack.key',
+  $ssl_key          = '/etc/ssl/private/ssl-cert-snakeoil.key',
   $ssl_ca_content   = undef,
   $ssl_ca           = undef, # '/etc/ssl/certs/ca.pem'
 ) {

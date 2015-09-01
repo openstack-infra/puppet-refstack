@@ -21,7 +21,15 @@ class refstack (
   $mysql_database      = 'refstack',
   $mysql_user          = 'refstack',
   $mysql_user_password,
-  $hostname            = $::ipaddress,
+  $hostname            = $::fqdn,
+  $protocol            = 'http',
+
+  $ssl_cert_content = undef,
+  $ssl_cert         = '/etc/ssl/certs/ssl-cert-snakeoil.pem',
+  $ssl_key_content  = undef,
+  $ssl_key          = '/etc/ssl/private/ssl-cert-snakeoil.key',
+  $ssl_ca_content   = undef,
+  $ssl_ca           = undef, # '/etc/ssl/certs/ca.pem'
 ) {
 
   # Configure the entire refstack instance. This does not install anything,
@@ -30,11 +38,23 @@ class refstack (
     mysql_database      => $mysql_database,
     mysql_user          => $mysql_user,
     mysql_user_password => $mysql_user_password,
-    hostname            => $hostname
+    hostname            => $hostname,
+    protocol            => $protocol,
+    ssl_cert_content    => $ssl_cert_content,
+    ssl_cert            => $ssl_cert,
+    ssl_key_content     => $ssl_key_content,
+    ssl_key             => $ssl_key,
+    ssl_ca_content      => $ssl_ca_content,
+    ssl_ca              => $ssl_ca
   }
 
   include ::refstack::mysql
   include ::refstack::app
   include ::refstack::api
-  include ::refstack::apache::http
+
+  if $protocol == 'https' {
+    include ::refstack::apache::https
+  } else {
+    include ::refstack::apache::http
+  }
 }
