@@ -31,15 +31,15 @@ class refstack::apache::http () {
   $server_admin           = $::refstack::params::server_admin
 
   # Install apache
-  include ::apache
-  include ::apache::params
-  include ::apache::mod::wsgi
+  include ::httpd
+  include ::httpd::params
+  include ::httpd::mod::wsgi
 
   # Create a copy of the wsgi file with apache user permissions.
   file { '/etc/refstack/app.wsgi':
     ensure  => present,
-    owner   => $::apache::params::user,
-    group   => $::apache::params::group,
+    owner   => $::httpd::params::user,
+    group   => $::httpd::params::group,
     mode    => '0644',
     source  => "${src_www_root}/refstack/api/app.wsgi",
     require => [
@@ -51,8 +51,8 @@ class refstack::apache::http () {
   # Synchronize the app directory and the apache directory.
   file { $install_www_root:
     ensure  => directory,
-    owner   => $::apache::params::user,
-    group   => $::apache::params::group,
+    owner   => $::httpd::params::user,
+    group   => $::httpd::params::group,
     source  => "${src_www_root}/refstack-ui/app",
     recurse => true,
     purge   => true,
@@ -61,7 +61,7 @@ class refstack::apache::http () {
   }
 
   # Set up RefStack as HTTP.
-  apache::vhost { $hostname:
+  httpd::vhost { $hostname:
     port     => 80,
     docroot  => $install_www_root,
     priority => '50',
