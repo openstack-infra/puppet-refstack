@@ -61,7 +61,7 @@ class refstack::app () {
     group    => $group,
     provider => git,
     revision => 'master',
-    source   => 'https://git.openstack.org/stackforge/refstack/',
+    source   => 'https://git.openstack.org/openstack/refstack/',
     require  => Package['git']
   }
 
