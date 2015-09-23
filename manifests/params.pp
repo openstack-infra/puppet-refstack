@@ -57,6 +57,8 @@ class refstack::params (
   # Construct website URL.
   $web_url = "${protocol}://${hostname}"
 
+  $api_url = "${web_url}/api"
+
   # CA file needs special treatment, since we want the path variable
   # to be undef in some cases.
   if $ssl_ca == undef and $ssl_ca_content != undef {
