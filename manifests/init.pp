@@ -18,6 +18,7 @@
 # directly from its git repositories.
 #
 class refstack (
+  $mysql_host          = 'localhost',
   $mysql_database      = 'refstack',
   $mysql_user          = 'refstack',
   $mysql_user_password,
@@ -35,6 +36,7 @@ class refstack (
   # Configure the entire refstack instance. This does not install anything,
   # but ensures that variables are consistent across all modules.
   class { '::refstack::params':
+    mysql_host          => $mysql_host,
     mysql_database      => $mysql_database,
     mysql_user          => $mysql_user,
     mysql_user_password => $mysql_user_password,

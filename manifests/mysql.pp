@@ -15,25 +15,28 @@
 # == Class: refstack::mysql
 #
 # The RefStack MySQL manifest will install a standalone, localhost instance
-# of mysql for refstack to connect to.
+# of mysql if mysql_host is set to 'localhost'.
 #
 class refstack::mysql () {
 
   require ::refstack::params
 
   # Import parameters.
+  $mysql_host          = $refstack::params::mysql_host
   $mysql_database      = $refstack::params::mysql_database
   $mysql_user          = $refstack::params::mysql_user
   $mysql_user_password = $refstack::params::mysql_user_password
 
   # Install MySQL
-  include ::mysql::server
+  if $mysql_host == 'localhost' {
+    include ::mysql::server
 
-  # Add the refstack database.
-  mysql::db { $mysql_database:
-    user     => $mysql_user,
-    password => $mysql_user_password,
-    host     => 'localhost',
-    grant    => ['all'],
+    # Add the refstack database.
+    mysql::db { $mysql_database:
+      user     => $mysql_user,
+      password => $mysql_user_password,
+      host     => $mysql_host,
+      grant    => ['all'],
+    }
   }
 }
