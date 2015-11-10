@@ -82,6 +82,7 @@ class refstack::api () {
     refreshonly => true,
     require     => Vcsrepo[$src_api_root],
     subscribe   => Vcsrepo[$src_api_root],
+    notify      => Service['httpd'],
   }
 
   # Migrate the database.
