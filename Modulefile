@@ -5,7 +5,7 @@ author 'openstackci'
 license 'Apache 2.0'
 summary 'Puppet module for Refstack'
 description 'This module installs and maintains the OpenStack RefStack service.'
-project_page 'https://github.com/openstack-ci/puppet-refstack'
+project_page 'https://git.openstack.org/cgit/openstack-infra/puppet-refstack'
 
 ## Add dependencies, if any:
 dependency 'puppetlabs/stdlib', '= 3.2.0'
