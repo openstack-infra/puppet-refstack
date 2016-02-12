@@ -68,9 +68,9 @@ class refstack::api () {
 
   # Download the latest RefStack Source.
   vcsrepo { $src_api_root:
-    ensure   => latest,
+    ensure   => present,
     provider => git,
-    revision => 'master',
+    revision => $refstack::params::release_revision,
     source   => 'https://git.openstack.org/openstack/refstack/',
     require  => Package['git']
   }
