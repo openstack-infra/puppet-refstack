@@ -18,12 +18,8 @@
 #
 class refstack::params (
 
-  # Current release revision
-  $release_revision = '1.0.0',
-
   # Source and install directories.
-  $src_api_root           = '/opt/refstack-api',
-  $src_www_root           = '/opt/refstack-www',
+  $src_root               = '/opt/refstack',
   $install_www_root       = '/var/www/refstack-www',
 
   # The user under which refstack will run.
