@@ -19,12 +19,11 @@
 #
 class refstack::apache::http () {
   require ::refstack::params
-  require ::refstack::api
   require ::refstack::app
 
   # Pull various variables into this module, for slightly saner templates.
   $install_www_root       = $::refstack::params::install_www_root
-  $src_www_root           = $::refstack::params::src_www_root
+  $src_root               = $::refstack::params::src_root
   $hostname               = $::refstack::params::hostname
   $user                   = $::refstack::params::user
   $group                  = $::refstack::params::group
@@ -41,9 +40,9 @@ class refstack::apache::http () {
     owner   => $::httpd::params::user,
     group   => $::httpd::params::group,
     mode    => '0644',
-    source  => "${src_www_root}/refstack/api/app.wsgi",
+    source  => "${src_root}/refstack/api/app.wsgi",
     require => [
-      Class['refstack::api']
+      Class['refstack::app']
     ],
     notify  => Service['httpd'],
   }
@@ -53,7 +52,7 @@ class refstack::apache::http () {
     ensure  => directory,
     owner   => $::httpd::params::user,
     group   => $::httpd::params::group,
-    source  => "${src_www_root}/refstack-ui/app",
+    source  => "${src_root}/refstack-ui/app",
     recurse => true,
     purge   => true,
     force   => true,
