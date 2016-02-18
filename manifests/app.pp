@@ -14,11 +14,8 @@
 
 # == Class: refstack::app
 #
-# This class installs the RefStack JavaScript Webclient (or app).
-#
-# Much of this module is duplicated in ::refstack::api, however it's separated
-# here so that any future project splits (api vs. client) can be treated
-# similarly in the puppet module.
+# This class installs the RefStack application (API an UI) so that it may be
+# run via wsgi.
 #
 class refstack::app () {
   require ::refstack::params
@@ -26,6 +23,7 @@ class refstack::app () {
 
   # Import parameters into local scope.
   $src_www_root           = $::refstack::params::src_www_root
+  $src_root               = $::refstack::params::src_root
   $install_www_root       = $::refstack::params::install_www_root
   $user                   = $::refstack::params::user
   $group                  = $::refstack::params::group
@@ -37,48 +35,129 @@ class refstack::app () {
     }
   }
 
+  # Ensure python-dev is present
+  if !defined(Package['python-dev']) {
+    package { 'python-dev':
+      ensure => present
+    }
+  }
+
+  # Ensure OpenSSL is present
+  if !defined(Package['libssl-dev']) {
+    package { 'libssl-dev':
+      ensure => present
+    }
+  }
+
   # Ensure NPM is present
   if !defined(Package['npm']) {
     package { 'npm':
       ensure => present
     }
   }
+
   if !defined(Package['nodejs']) {
     package { 'nodejs':
       ensure => present
     }
   }
+
   if !defined(Package['nodejs-legacy']) {
     package { 'nodejs-legacy':
       ensure => present
     }
   }
 
-  # Download the latest RefStack Source.
-  vcsrepo { $src_www_root:
-    ensure   => present,
-    owner    => $user,
-    group    => $group,
-    provider => git,
-    revision => $refstack::params::release_revision,
-    source   => 'https://git.openstack.org/openstack/refstack/',
-    require  => Package['git']
+  # Create the RefStack configuration directory.
+  file { '/etc/refstack':
+    ensure => directory,
+    owner  => $user,
+    group  => $group,
+    mode   => '0755',
+  }
+
+  file { "${src_root}":
+    ensure => 'directory',
+    owner   => $user,
+    group   => $group,
+    mode   => '0755',
+  }
+
+  # Configure the RefStack API.
+  file { '/etc/refstack/refstack.conf':
+    ensure  => present,
+    owner   => $user,
+    group   => $group,
+    mode    => '0644',
+    content => template('refstack/refstack.conf.erb'),
+    require => [
+      File['/etc/refstack']
+    ]
+  }
+
+  # Download the RefStack tar.gz source distribution from pypi only if a new
+  # one is available.
+  exec { 'download-refstack':
+    command => 'pip install refstack -d /tmp --no-deps --no-binary :all:',
+    path    => '/usr/local/bin:/usr/bin:/bin',
+    user    => $user,
+    group   => $group,
+    onlyif  => 'pip list --outdated | grep -c refstack || test `pip freeze | grep -c refstack` -eq 0'
+  }
+
+  # Untar the source contents.
+  exec { 'untar-refstack' :
+    command     => "tar -xvzf /tmp/refstack-*.tar.gz -C ${src_root} --strip-components=1",
+    path        => '/usr/local/bin:/usr/bin:/bin',
+    refreshonly => true,
+    user        => $user,
+    group       => $group,
+    subscribe   => Exec['download-refstack']
+  }
+
+  # Remove tar.gz file after extracting.
+  exec { 'remove-tar':
+    command     => 'rm -f /tmp/refstack-*.tar.gz',
+    path        => '/usr/local/bin:/usr/bin:/bin',
+    refreshonly => true,
+    subscribe   => Exec['untar-refstack']
+  }
+
+  # Install RefStack using pip.
+  exec { 'install-refstack':
+    command     => "pip install -U ${src_root}",
+    path        => '/usr/local/bin:/usr/bin:/bin',
+    refreshonly => true,
+    subscribe   => Exec['untar-refstack'],
+    notify      => Service['httpd']
+  }
+
+  # Migrate the database.
+  exec { 'migrate-refstack-db':
+    command     => 'refstack-manage --config-file /etc/refstack/refstack.conf upgrade --revision head',
+    path        => '/usr/local/bin:/usr/bin:/bin',
+    refreshonly => true,
+    subscribe   => [
+      Exec['install-refstack'],
+      File['/etc/refstack/refstack.conf'],
+    ],
+    require     => [
+      Exec['install-refstack'],
+      File['/etc/refstack/refstack.conf'],
+    ]
   }
 
   # Run NPM Install.
   exec { 'npm install':
     command     => 'npm install',
     path        => '/usr/local/bin:/usr/bin:/bin/',
-    cwd         => $src_www_root,
+    cwd         => $src_root,
     user        => $user,
     group       => $group,
     refreshonly => true,
-    subscribe   => [
-      Vcsrepo[$src_www_root],
-    ],
+    subscribe   => Exec['untar-refstack'],
     require     => [
       Package['npm'],
-      Vcsrepo[$src_www_root],
     ],
     environment => [
       # This is not automatically set by exec.
@@ -87,9 +166,12 @@ class refstack::app () {
   }
 
   # Create config.json file.
-  file { "${src_www_root}/refstack-ui/app/config.json":
+  file { "${src_root}/refstack-ui/app/config.json":
     ensure  => file,
     content => '{"refstackApiUrl": "/api/v1"}',
-    require => Vcsrepo[$src_www_root],
+    require => [
+      File[$src_root],
+      Exec['untar-refstack'],
+    ]
   }
 }

@@ -52,7 +52,6 @@ class refstack (
 
   include ::refstack::mysql
   include ::refstack::app
-  include ::refstack::api
 
   if $protocol == 'https' {
     include ::refstack::apache::https
