@@ -18,19 +18,18 @@
 # directly from its git repositories.
 #
 class refstack (
-  $mysql_host          = 'localhost',
-  $mysql_database      = 'refstack',
-  $mysql_user          = 'refstack',
   $mysql_user_password,
-  $hostname            = $::fqdn,
-  $protocol            = 'http',
-
-  $ssl_cert_content = undef,
-  $ssl_cert         = '/etc/ssl/certs/ssl-cert-snakeoil.pem',
-  $ssl_key_content  = undef,
-  $ssl_key          = '/etc/ssl/private/ssl-cert-snakeoil.key',
-  $ssl_ca_content   = undef,
+  $hostname         = $::fqdn,
+  $mysql_database   = 'refstack',
+  $mysql_host       = 'localhost',
+  $mysql_user       = 'refstack',
+  $protocol         = 'http',
   $ssl_ca           = undef, # '/etc/ssl/certs/ca.pem'
+  $ssl_ca_content   = undef,
+  $ssl_cert         = '/etc/ssl/certs/ssl-cert-snakeoil.pem',
+  $ssl_cert_content = undef,
+  $ssl_key          = '/etc/ssl/private/ssl-cert-snakeoil.key',
+  $ssl_key_content  = undef,
 ) {
 
   # Configure the entire refstack instance. This does not install anything,
