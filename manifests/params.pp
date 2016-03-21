@@ -17,36 +17,35 @@
 # Centralized configuration management for the Refstack module.
 #
 class refstack::params (
-
   # Current release revision
   $release_revision = '1.0.0',
 
   # Source and install directories.
-  $src_api_root           = '/opt/refstack-api',
-  $src_www_root           = '/opt/refstack-www',
-  $install_www_root       = '/var/www/refstack-www',
+  $install_www_root = '/var/www/refstack-www',
+  $src_api_root     = '/opt/refstack-api',
+  $src_www_root     = '/opt/refstack-www',
 
   # The user under which refstack will run.
-  $user                   = 'refstack',
-  $group                  = 'refstack',
-  $server_admin           = undef,
-  $hostname               = $::fqdn,
-  $protocol               = 'http',
+  $group            = 'refstack',
+  $hostname         = $::fqdn,
+  $protocol         = 'http',
+  $server_admin     = undef,
+  $user             = 'refstack',
 
   # [database] refstack.conf
-  $mysql_user             = 'refstack',
   $mysql_user_password,
-  $mysql_host             = localhost,
-  $mysql_port             = 3306,
-  $mysql_database         = 'refstack',
+  $mysql_database   = 'refstack',
+  $mysql_host       = localhost,
+  $mysql_port       = 3306,
+  $mysql_user       = 'refstack',
 
   # Apache2 ssl configuration
-  $ssl_cert_content = undef,
-  $ssl_cert         = '/etc/ssl/certs/ssl-cert-snakeoil.pem',
-  $ssl_key_content  = undef,
-  $ssl_key          = '/etc/ssl/private/ssl-cert-snakeoil.key',
-  $ssl_ca_content   = undef,
   $ssl_ca           = undef, # '/etc/ssl/certs/ca.pem'
+  $ssl_ca_content   = undef,
+  $ssl_cert         = '/etc/ssl/certs/ssl-cert-snakeoil.pem',
+  $ssl_cert_content = undef,
+  $ssl_key          = '/etc/ssl/private/ssl-cert-snakeoil.key',
+  $ssl_key_content  = undef,
 ) {
 
   # Resolve a few parameters based on the install environment.
