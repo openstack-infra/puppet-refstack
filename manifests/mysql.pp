@@ -39,4 +39,10 @@ class refstack::mysql () {
       grant    => ['all'],
     }
   }
+
+  mysql_backup::backup_remote { $mysql_database:
+    database_host     => $mysql_host,
+    database_user     => $mysql_user,
+    database_password => $mysql_user_password,
+  }
 }
