@@ -22,6 +22,7 @@ class refstack::mysql () {
   require ::refstack::params
 
   # Import parameters.
+  $enable_mysql_backup = $refstack::params::enable_mysql_backup
   $mysql_host          = $refstack::params::mysql_host
   $mysql_database      = $refstack::params::mysql_database
   $mysql_user          = $refstack::params::mysql_user
@@ -37,6 +38,14 @@ class refstack::mysql () {
       password => $mysql_user_password,
       host     => $mysql_host,
       grant    => ['all'],
+    }
+  }
+
+  if $enable_mysql_backup {
+    mysql_backup::backup_remote { $mysql_database:
+      database_host     => $mysql_host,
+      database_user     => $mysql_user,
+      database_password => $mysql_user_password,
     }
   }
 }

@@ -29,7 +29,8 @@ class refstack::params (
   $hostname               = $::fqdn,
   $protocol               = 'http',
 
-  # [database] refstack.conf
+  # Database parameters
+  $enable_mysql_backup    = true,
   $mysql_user             = 'refstack',
   $mysql_user_password,
   $mysql_host             = localhost,
