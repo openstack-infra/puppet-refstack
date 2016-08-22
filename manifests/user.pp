@@ -17,7 +17,7 @@
 # Sets up the RefStack user.
 #
 class refstack::user () {
-  require refstack::params
+  require ::refstack::params
 
   # Import parameters into local scope.
   $user         = $::refstack::params::user
