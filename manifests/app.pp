@@ -40,6 +40,13 @@ class refstack::app () {
     }
   }
 
+  # Needed for PyOpenSSL
+  if !defined(Package['libffi-dev']) {
+    package { 'libffi-dev':
+      ensure => present
+    }
+  }
+
   # Ensure NPM is present
   if !defined(Package['npm']) {
     package { 'npm':
