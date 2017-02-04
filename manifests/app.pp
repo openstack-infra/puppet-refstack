@@ -66,6 +66,13 @@ class refstack::app () {
     }
   }
 
+  if !defined(Package['pymysql']) {
+    package { 'pymysql':
+      ensure   => present,
+      provider => 'pip'
+    }
+  }
+
   # Create the RefStack configuration directory.
   file { '/etc/refstack':
     ensure => directory,
