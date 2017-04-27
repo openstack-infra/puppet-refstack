@@ -165,6 +165,14 @@ class refstack::app () {
     ]
   }
 
+  # Generate HTML templates from docs
+  exec { 'generate-doc-html':
+    command     => "python ${src_root}/tools/convert-docs.py -o ${src_root}/refstack-ui/app/components/about/templates ${src_root}/doc/source/*.rst",
+    path        => '/usr/local/bin:/usr/bin:/bin',
+    refreshonly => true,
+    subscribe   => Exec['install-refstack']
+  }
+
   # Create config.json file.
   file { "${src_root}/refstack-ui/app/config.json":
     ensure  => file,
