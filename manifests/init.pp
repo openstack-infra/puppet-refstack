@@ -18,10 +18,10 @@
 # directly from its git repositories.
 #
 class refstack (
+  $mysql_user_password,
   $mysql_host          = 'localhost',
   $mysql_database      = 'refstack',
   $mysql_user          = 'refstack',
-  $mysql_user_password,
   $hostname            = $::fqdn,
   $protocol            = 'http',
 
