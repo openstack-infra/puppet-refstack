@@ -18,6 +18,13 @@
 #
 class refstack::params (
 
+  # [database] refstack.conf
+  $mysql_user_password,
+  $mysql_user             = 'refstack',
+  $mysql_host             = localhost,
+  $mysql_port             = 3306,
+  $mysql_database         = 'refstack',
+
   # Source and install directories.
   $src_root               = '/opt/refstack',
   $install_www_root       = '/var/www/refstack-www',
@@ -28,13 +35,6 @@ class refstack::params (
   $server_admin           = undef,
   $hostname               = $::fqdn,
   $protocol               = 'http',
-
-  # [database] refstack.conf
-  $mysql_user             = 'refstack',
-  $mysql_user_password,
-  $mysql_host             = localhost,
-  $mysql_port             = 3306,
-  $mysql_database         = 'refstack',
 
   # Apache2 ssl configuration
   $ssl_cert_content = undef,
