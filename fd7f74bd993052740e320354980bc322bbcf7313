@@ -1,0 +1,10 @@
+Code-Review+1: megan guiney <meganmguiney@gmail.com>
+Code-Review+1: Catherine Diep <cdiep@us.ibm.com>
+Code-Review+2: Clark Boylan <cboylan@sapwetik.org>
+Workflow+1: Clark Boylan <cboylan@sapwetik.org>
+Verified+2: Jenkins
+Submitted-by: Jenkins
+Submitted-at: Thu, 25 May 2017 21:43:51 +0000
+Reviewed-on: https://review.openstack.org/460787
+Project: openstack-infra/puppet-refstack
+Branch: refs/heads/master
