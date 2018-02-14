@@ -58,6 +58,10 @@ class refstack::params (
 
   $api_url = "${web_url}/api"
 
+  # set the flag to enable anonymous upload (or not)
+  $enable_anonymous_upload = "false"
+
+
   # CA file needs special treatment, since we want the path variable
   # to be undef in some cases.
   if $ssl_ca == undef and $ssl_ca_content != undef {
