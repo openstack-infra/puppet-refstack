@@ -50,13 +50,13 @@ class refstack::app () {
   # Ensure NPM is present
   if !defined(Package['npm']) {
     package { 'npm':
-      ensure => present
+      ensure => '5.8.0'
     }
   }
 
   if !defined(Package['nodejs']) {
     package { 'nodejs':
-      ensure => present
+      ensure => 'v4.8.7'
     }
   }
 
