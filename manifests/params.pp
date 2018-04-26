@@ -46,7 +46,7 @@ class refstack::params (
 ) {
 
   # Resolve a few parameters based on the install environment.
-  if $::operatingsystem != 'Ubuntu' or $::operatingsystemrelease < 13.10 {
+  if $::operatingsystem != 'Ubuntu' or versioncmp($::operatingsystemrelease, '13.10') < 0 {
     fail("${::operatingsystem} ${::operatingsystemrelease} is not supported.")
   }
 
