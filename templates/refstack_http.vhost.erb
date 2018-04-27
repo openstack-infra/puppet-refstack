@@ -1,12 +1,12 @@
-<VirtualHost <%= @hostname %>:80>
-<% if !!@server_admin %>
-  ServerAdmin <%= @server_admin %>
+<VirtualHost <%= scope.lookupvar('::refstack::apache::http::hostname') %>:80>
+<% if !!scope.lookupvar('::refstack::apache::http::server_admin') %>
+  ServerAdmin <%= scope.lookupvar('::refstack::apache::http::server_admin') %>
 <% end %>
-  ServerName <%= @hostname %>
+  ServerName <%= scope.lookupvar('::refstack::apache::http::hostname') %>
 
-  DocumentRoot <%= @install_www_root %>
+  DocumentRoot <%= scope.lookupvar('::refstack::apache::http::install_www_root') %>
 
-  WSGIDaemonProcess refstack user=<%= @user %> group=<%= @group %> threads=5
+  WSGIDaemonProcess refstack user=<%= scope.lookupvar('::refstack::apache::http::user') %> group=<%= scope.lookupvar('::refstack::apache::http::group') %> threads=5
   WSGIScriptAlias /api /etc/refstack/app.wsgi
   WSGIPassAuthorization On
   LogLevel warn
