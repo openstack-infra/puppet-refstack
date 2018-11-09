@@ -47,30 +47,16 @@ class refstack::app () {
     }
   }
 
-  # Ensure NPM is present
-  if !defined(Package['npm']) {
-    package { 'npm':
-      ensure => present
-    }
-  }
-
-  if !defined(Package['nodejs']) {
-    package { 'nodejs':
-      ensure => present
-    }
-  }
-
-  if !defined(Package['nodejs-legacy']) {
-    package { 'nodejs-legacy':
-      ensure => present
-    }
-  }
-
   if !defined(Package['pymysql']) {
     package { 'pymysql':
       ensure   => present,
       provider => 'pip'
     }
+  }
+
+  class { '::nodejs':
+    repo_url_suffix        => '4.x',
+    legacy_debian_symlinks => false,
   }
 
   # Create the RefStack configuration directory.
@@ -164,7 +150,7 @@ class refstack::app () {
     refreshonly => true,
     subscribe   => Exec['untar-refstack'],
     require     => [
-      Package['npm'],
+      Class['::nodejs'],
     ],
     environment => [
       # This is not automatically set by exec.
