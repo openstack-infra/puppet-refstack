@@ -103,7 +103,7 @@ class refstack::app () {
   # Download the RefStack tar.gz source distribution from pypi only if a new
   # one is available.
   exec { 'download-refstack':
-    command => 'pip install refstack -d /tmp --no-deps --no-binary :all:',
+    command => 'pip download refstack -d /tmp --no-deps --no-binary :all: || pip install refstack -d /tmp --no-deps --no-binary :all:',
     path    => '/usr/local/bin:/usr/bin:/bin',
     user    => $user,
     group   => $group,
