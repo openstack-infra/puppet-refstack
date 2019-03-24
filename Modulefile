@@ -1,6 +1,6 @@
 name 'openstack-refstack'
 version '0.0.1'
-source 'git://git.openstack.org/openstack-infra/puppet-refstack.git'
+source 'https://git.openstack.org/openstack-infra/puppet-refstack.git'
 author 'openstackci'
 license 'Apache 2.0'
 summary 'Puppet module for Refstack'
