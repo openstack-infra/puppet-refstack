@@ -1,6 +1,0 @@
-.vagrant
-.DS_Store
-.idea
-*.iml
-Gemfile.lock
-.bundled_gems/

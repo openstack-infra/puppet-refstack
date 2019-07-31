@@ -1,4 +1,3 @@
-# OpenStack RefStack Module
+# This repo has moved to OpenDev
 
-This module manages and installs OpenStack's RefStack Service. Add more 
-documentation here.
+It can now be found at [https://opendev.org/opendev/puppet-refstack](https://opendev.org/opendev/puppet-refstack)
